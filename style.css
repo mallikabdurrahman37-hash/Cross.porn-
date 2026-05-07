@@ -19,23 +19,36 @@
 }
 
 /* ── Body & Background (White Glow Fix) ── */
+
+html {
+  /* Jab page teji se scroll/bounce ho toh white ki jagah dark color dikhe */
+  background-color: #000; 
+}
+
 body {
-  background-color: transparent !important; /* Force transparent base to remove black */
+  background-color: transparent !important; /* Force transparent base */
   color: #fff; /* Keep white text */
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh; /* 'dvh' mobile browsers mein address bar hide/show glitch ko rokta hai */
+  overflow-x: hidden; /* Extra horizontal scroll ko block karne ke liye */
 }
 
 /* 1. Background Image (Behind the glow) */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  background-image: url("bg.png"); /* Background image path must be correct */
+  /* inset: 0; ki jagah hum image ko screen se thoda bada kar rahe hain
+     taaki jab page bounce ho toh image margin se bahar tak cover rahe aur koi white gap na dikhe */
+  top: -15vh;
+  bottom: -15vh;
+  left: -10vw;
+  right: -10vw;
+  background-image: url("bg.png"); 
   background-size: cover;
   background-position: center;
-  opacity: .9; /* Keep the existing image opacity */
-  z-index: -2; /* Behind the white overlay */
+  opacity: .9; 
+  z-index: -2; 
   pointer-events: none;
 }
 
@@ -44,12 +57,13 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-color: rgba(255, 255, 255, 0.05); /* Very low opacity white coating */
+  background-color: rgba(255, 255, 255, 0.3); /* Very low opacity white coating */
   z-index: -1; /* Over image, under content */
   pointer-events: none;
   /* Soft inner glow */
   box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.2);
 }
+
 
 /* Ensure main content sits above the overlays */
 body > * {
